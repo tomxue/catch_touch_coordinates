@@ -69,7 +69,8 @@ int main (int argc, char *argv[])
                 z = ev[0].value;
         }
         printf("x = %d\n", x);	
-        printf("y = %d\n", y);	
+        printf("y = %d\n", y);
+	printf("z = %d\n", z);	
         //return 0;
     }
 }
