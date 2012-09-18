@@ -34,5 +34,17 @@ Utility
 
 test_mouse.c
     Purpose: to detect the mouse action: click, move...
-    tested on Tom's Ubuntu and BB_Ubuntu
-    cannot provide the coordinates of mouse click position
+    TestBench    
+        Tom's PC_Ubuntu and BB_Ubuntu
+            cannot provide the coordinates of mouse click position
+        HTC Sensation XE: can provide the real coordinates as value shown
+            begin handel_event0...
+            The sizeof struct input_event is: 16
+            event(0): type: 3; code:  48; value:  13; realx:   0; realy:   0
+            event(1): type: 3; code:  50; value:  13; realx:   0; realy:   0
+            event(2): type: 3; code:  58; value:  13; realx:   0; realy:   0
+            event(3): type: 3; code:  53; value: 947; realx:   0; realy:   0
+            event(4): type: 3; code:  54; value: 897; realx:   0; realy:   0
+            event(5): type: 0; code:   2; value:   0; realx:   0; realy:   0
+            event(6): type: 0; code:   0; value:   0; realx:   0; realy:   0
+            end handel_event0...

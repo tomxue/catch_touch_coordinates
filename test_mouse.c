@@ -1,4 +1,5 @@
-// the original code below is from internet, the link is ?
+// the original code below is from internet, the link is 
+// http://m.oschina.net/blog/1570
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -9,6 +10,7 @@ struct input_event ev0[64];
 
 // handling event0/1/2, ?/key/mouse - Tom's Ubuntu
 // handling event1, mouse - BB Ubuntu
+// handling event2, mouse - HTC Sensation XE
 static int handle_event_mouse()
 {
     int button = 0, realx = 0, realy = 0, i, rd;
