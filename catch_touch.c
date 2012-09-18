@@ -34,7 +34,7 @@ int main (int argc, char *argv[])
     
     //Setup check
     if (argv[1] == NULL){
-        printf("Please specify (on the command line) the path to the dev event interface device\n");
+        printf("Please input like this: sudo ./a.out /dev/input/event2\n");
         exit (0);
     }
     

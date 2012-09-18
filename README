@@ -1,0 +1,38 @@
+catch_touch.c
+    For N900 touch panel detection
+
+
+Utility
+    Tom Ubuntu
+        $ sudo lsinput
+        /dev/input/event0
+           bustype : BUS_HOST
+           vendor  : 0x0
+           product : 0x1
+           version : 0
+           name    : "Power Button"
+           phys    : "LNXPWRBN/button/input0"
+           bits ev : EV_SYN EV_KEY
+
+        /dev/input/event1
+           bustype : BUS_I8042
+           vendor  : 0x1
+           product : 0x1
+           version : 43841
+           name    : "AT Translated Set 2 keyboard"
+           phys    : "isa0060/serio0/input0"
+           bits ev : EV_SYN EV_KEY EV_MSC EV_LED EV_REP
+
+        /dev/input/event2
+           bustype : BUS_I8042
+           vendor  : 0x2
+           product : 0x5
+           version : 0
+           name    : "ImPS/2 Generic Wheel Mouse"
+           phys    : "isa0060/serio1/input0"
+           bits ev : EV_SYN EV_KEY EV_REL
+
+test_mouse.c
+    Purpose: to detect the mouse action: click, move...
+    tested on Tom's Ubuntu and BB_Ubuntu
+    cannot provide the coordinates of mouse click position
