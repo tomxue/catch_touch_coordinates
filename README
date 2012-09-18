@@ -32,6 +32,7 @@ Utility
            phys    : "isa0060/serio1/input0"
            bits ev : EV_SYN EV_KEY EV_REL
 
+
 test_mouse.c
     Purpose: to detect the mouse action: click, move...
     TestBench    
@@ -48,3 +49,10 @@ test_mouse.c
             event(5): type: 0; code:   2; value:   0; realx:   0; realy:   0
             event(6): type: 0; code:   0; value:   0; realx:   0; realy:   0
             end handel_event0...
+
+
+simulate_mouse_key.c
+    Capbility
+        Currently it can simulate the key event: to press key "c" and output it to shell
+    Run
+        sudo ./a.out
