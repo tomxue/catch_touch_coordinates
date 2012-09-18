@@ -73,14 +73,14 @@ int main(int argc, char **argv)
     int fd_kbd = -1;
     int i = 0;
 
-    fd_kbd = open("/dev/input/event2", O_RDWR);
+    fd_kbd = open("/dev/input/event1", O_RDWR);
     if(fd_kbd <= 0)
     {
         printf("Can not open keyboard input file\n");
         return -1;
     }
 
-    fd_mouse = open("/dev/input/event1", O_RDWR);
+    fd_mouse = open("/dev/input/event2", O_RDWR);
     if(fd_mouse <= 0)
     {
         printf("Can not open mouse input file\n");
