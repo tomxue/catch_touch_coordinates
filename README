@@ -52,6 +52,8 @@ test_mouse.c
 
 
 simulate_mouse_key.c
+    TestBench
+        Tom's PC_Ubuntu
     Capbility
         Currently it can simulate the key event: to press key "c" and output it to shell
     Run
