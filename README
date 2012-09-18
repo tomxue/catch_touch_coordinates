@@ -64,3 +64,10 @@ simulate_mouse_key.c
         BB_Ubuntu
     Capability
         can simulate both keyboards and mouse
+
+
+script
+    TestBench
+        HTC Sensation XE
+            can partially trigger the touch click action 
+            but with drag, not totally same
