@@ -58,3 +58,9 @@ simulate_mouse_key.c
         Currently it can simulate the key event: to press key "c" and output it to shell
     Run
         sudo ./a.out
+
+
+    TestBench
+        BB_Ubuntu
+    Capability
+        can simulate both keyboards and mouse

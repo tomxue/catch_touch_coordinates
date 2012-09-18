@@ -1,95 +1,102 @@
+// the code is from link below: 
+// http://blog.csdn.net/zouxy09/article/details/7920253
 #include <stdio.h>
-#include <linux/input.h>	//event
-#include <sys/time.h>	    //gettimeofday
-#include <unistd.h>	        //write close
-#include <fcntl.h>	        //open
-#include <string.h>
+#include <linux/input.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <unistd.h>
 
-int simulate_key(int fd,int code,int value)
+//按键模拟，按键包含按下和松开两个环节
+void simulate_key(int fd, int kval)
 {
     struct input_event event;
-    memset(&event,0,sizeof(event));
+    gettimeofday(&event.time, 0);
+    //按下kval键
     event.type = EV_KEY;
-    event.code = code; //simulate what key
-    event.value = value;
-    if(write(fd,&event,sizeof(event)) < 0)
-    {
-        printf("Can not simulate key input\n");
-        return -1;
-    }
-
+    event.value = 1;
+    event.code = kval;
+    write(fd, &event, sizeof(event));
+    //同步，也就是把它报告给系统
     event.type = EV_SYN;
     event.value = 0;
     event.code = SYN_REPORT;
-    if(write(fd,&event,sizeof(event)) != sizeof(event))
-    {
-        printf("Can not simulate_mouse\n");
-        return-1;
-    }
-    return 0;
+    write(fd, &event, sizeof(event));
+
+    memset(&event, 0, sizeof(event));
+    gettimeofday(&event.time, 0);
+
+    //松开kval键
+    event.type = EV_KEY;
+    event.value = 0;
+    event.code = kval;
+    write(fd, &event, sizeof(event));
+
+    //同步，也就是把它报告给系统
+    event.type = EV_SYN;
+    event.value = 0;
+    event.code = SYN_REPORT;
+    write(fd, &event, sizeof(event));
 }
-int simulate_mouse(int fd,int buff[4])
+
+//鼠标移动模拟
+void simulate_mouse(int fd, int rel_x, int rel_y)
 {
-    int rel_x,rel_y;
-    static struct input_event event,ev;
-    memset(&event,0,sizeof(event));
-    printf("Mouse touch:x1=%d,y1=%d,x2=%d,y2=%d\n",buff[0],buff[1],buff[2],buff[3]);
-    rel_x = (buff[0] + buff[2]) / 2;
-    rel_y = -(buff[1] + buff[3]) / 2;
+    struct input_event event;
+    gettimeofday(&event.time, 0);
+
+    //x轴坐标的相对位移
     event.type = EV_REL;
+    event.value = rel_x;
     event.code = REL_X;
-    //event.value = rel_x;
-    event.value = 100;
-    gettimeofday(&event.time,NULL);
-    if(write(fd,&event,sizeof(event)) != sizeof(event))
-    {
-        printf("Can not simulate_mouse\n");
-        return -1;
-    }
+    write(fd, &event, sizeof(event));
+
+    //y轴坐标的相对位移
     event.type = EV_REL;
+
+    event.value = rel_y;
     event.code = REL_Y;
-    //event.value = rel_y;
-    event.value = 100;
-    gettimeofday(&event.time,NULL);
-    if(write(fd,&event,sizeof(event)) != sizeof(event))
-    {
-        printf("Can not simulate_mouse\n");
-        return-1;
-    }
+    write(fd, &event, sizeof(event));
+
+    //同步
     event.type = EV_SYN;
     event.value = 0;
     event.code = SYN_REPORT;
-    if(write(fd,&event,sizeof(event)) != sizeof(event))
-    {
-        printf("Can not simulate_mouse\n");
-        return-1;
-    }
-    //write(fd,&ev,sizeof(ev));	//must write other event to fresh
-    return 0;
+    write(fd, &event, sizeof(event));
 }
 
-int main(int argc,char* argv[])
+// for BB_Ubuntu:
+// /dev/input/event1 - mouse
+// /dev/input/event2 - key
+int main(int argc, char **argv)
 {
-    int fd_key = 0;
-    int fd_mouse = 0;
-    int buff[4] = {100,100,500,500};
+    int fd_mouse = -1;
+    int fd_kbd = -1;
+    int i = 0;
 
-    if((fd_key = open("/dev/input/event1",O_RDWR)) == -1)
+    fd_kbd = open("/dev/input/event2", O_RDWR);
+    if(fd_kbd <= 0)
     {
-        printf("Can not open file fd_key is -1\n");
+        printf("Can not open keyboard input file\n");
+        return -1;
     }
 
-    if((fd_mouse = open("/dev/input/event2",O_RDWR)) == -1)
+    fd_mouse = open("/dev/input/event1", O_RDWR);
+    if(fd_mouse <= 0)
     {
-        printf("Can not open file fd_mouse is -1\n");
+        printf("Can not open mouse input file\n");
+        return -1;
     }
 
-    simulate_key(fd_key,KEY_C,1);
-    simulate_key(fd_key,KEY_C,0);
-//	simulate_mouse(fd_mouse,buff);
-
-    close(fd_key);
+    for (i = 0; i < 50; i++)
+    {
+        simulate_key(fd_mouse, BTN_LEFT);  //模拟按下鼠标左键
+        //if (i % 3 == 0)
+        //      simulate_key(fd_kbd, KEY_A);  //模拟按下键盘A键
+        //模拟鼠标相对上次x和y轴相应移动10个像素
+        simulate_mouse(fd_mouse, 10, 10);
+        sleep(1);
+    }
+    close(fd_kbd);
     close(fd_mouse);
-
-    return 0;
 }
+
