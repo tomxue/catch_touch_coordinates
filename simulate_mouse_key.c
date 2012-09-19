@@ -64,9 +64,13 @@ void simulate_mouse(int fd, int rel_x, int rel_y)
     write(fd, &event, sizeof(event));
 }
 
-// for BB_Ubuntu:
-// /dev/input/event1 - mouse
-// /dev/input/event2 - key
+/* for BB_Ubuntu:
+ *     /dev/input/event1 - mouse
+ *     /dev/input/event2 - key
+ * for PC_Ubuntu
+ *     /dev/input/event1 - key
+ *     /dev/input/event2 - mouse
+ */
 int main(int argc, char **argv)
 {
     int fd_mouse = -1;
@@ -91,7 +95,7 @@ int main(int argc, char **argv)
     {
         simulate_key(fd_mouse, BTN_LEFT);  //模拟按下鼠标左键
         //if (i % 3 == 0)
-        //      simulate_key(fd_kbd, KEY_A);  //模拟按下键盘A键
+        simulate_key(fd_kbd, KEY_A);  //模拟按下键盘A键
         //模拟鼠标相对上次x和y轴相应移动10个像素
         simulate_mouse(fd_mouse, 10, 10);
         sleep(1);
@@ -99,4 +103,3 @@ int main(int argc, char **argv)
     close(fd_kbd);
     close(fd_mouse);
 }
-

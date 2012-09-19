@@ -55,7 +55,7 @@ simulate_mouse_key.c
     TestBench
         Tom's PC_Ubuntu
     Capbility
-        Currently it can simulate the key event: to press key "c" and output it to shell
+        Currently it can simulate the key event: to press key "a" and output it to shell
     Run
         sudo ./a.out
 
@@ -71,3 +71,10 @@ script
         HTC Sensation XE
             can partially trigger the touch click action 
             but with drag, not totally same
+
+
+uinput-sample.c
+    TestBench
+        PC_Ubuntu
+            can simulate the mouse movement
+            cannot simulate the key press action
